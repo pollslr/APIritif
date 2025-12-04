@@ -1,6 +1,6 @@
 'use client'; // Obligatoire car on utilise useState
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styles from './chat.module.css'; // Import du CSS Module
 
 export default function ChatPage() {
@@ -9,6 +9,13 @@ export default function ChatPage() {
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const messagesEndRef = useRef(null);
+
+    useEffect(() => {
+        // Si la référence existe, on scrolle vers elle en douceur
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages, isLoading]);
 
     const sendMessage = async (e) => {
         e.preventDefault();
@@ -59,6 +66,8 @@ export default function ChatPage() {
                         </div>
                     ))}
                     {isLoading && <div className={styles.botMessage}><i>En train d'écrire...</i></div>}
+
+                    <div ref={messagesEndRef} />
                 </div>
 
                 <form onSubmit={sendMessage} className={styles.inputForm}>
@@ -77,10 +86,6 @@ export default function ChatPage() {
 
             {/* DROITE : Image */}
             <aside className={styles.imageInterface}>
-                <div className={styles.overlay}>
-                    <h2>Abribus-gpt</h2>
-                    <p>Propulsé par Gemini AI</p>
-                </div>
             </aside>
 
         </main>
