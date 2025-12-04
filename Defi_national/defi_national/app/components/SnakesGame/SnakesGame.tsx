@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from "react";
 import SnakeBoard from "./SnakesBoard";
 import GameOverModal from "./GameOverModal";

@@ -48,7 +48,7 @@ export default function SnakeBoard({
 
       window.onkeydown = (e) => {
         switch (e.key) {
-          case "w":
+          case "z":
           case "ArrowUp":
             snakeGame.snake.changeMovement("to top");
             break;
@@ -60,7 +60,7 @@ export default function SnakeBoard({
           case "ArrowRight":
             snakeGame.snake.changeMovement("to right");
             break;
-          case "a":
+          case "q":
           case "ArrowLeft":
             snakeGame.snake.changeMovement("to left");
             break;
