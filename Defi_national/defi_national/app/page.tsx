@@ -1,5 +1,9 @@
 import Image from "next/image";
 import Button from "./components/button";
+import {ReactNode} from "react";
+import QCM from "@/app/components/qcm";
+import Question from "@/app/components/qcm";
+
 
 export default function Home() {
     return (
@@ -15,7 +19,9 @@ export default function Home() {
             
             <Button text={"Test"}/>
             
-            <Section title={""}/>
+            <Section title={""} content={""}>
+                <QCM question={"Qui est correcte?"} reponses={[{"Oui": true, "Faux": false, "Incorrecte": false}]}/>
+            </Section>
             
             <Section title={"Contribuez"} content={""}/>
         </main>
@@ -23,7 +29,7 @@ export default function Home() {
     );
 }
 
-function Section({title, content, children}: {title: string, content: string, children?: Element[]}) {
+function Section({title, content, children}: {title: string, content: string, children?: ReactNode}) {
     return (
         <div>
             <h2>{title}</h2>
