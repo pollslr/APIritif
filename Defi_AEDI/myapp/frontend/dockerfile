@@ -2,15 +2,16 @@ FROM node:24-alpine
 
 WORKDIR /app_frontend
 
-COPY . .
+COPY package*.json ./
+COPY vite.config.js ./
+COPY index.html ./
+COPY eslint.config.js ./
+COPY src/ ./src/
+COPY public/ ./public/
 
 RUN npm install -g serve
-
-RUN npm install 
+RUN npm install
 
 RUN npm run build
 
 CMD ["serve", "-s", "dist", "-l", "5173"]
-
-
-
