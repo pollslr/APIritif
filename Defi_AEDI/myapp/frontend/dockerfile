@@ -1,0 +1,16 @@
+FROM node:24-alpine
+
+WORKDIR /app_frontend
+
+COPY . .
+
+RUN npm install -g serve
+
+RUN npm install 
+
+RUN npm run build
+
+CMD ["serve", "-s", "dist", "-l", "5173"]
+
+
+
