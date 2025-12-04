@@ -23,18 +23,21 @@ export default function ChatPage() {
 
 
     const [startY, setStartY] = useState(0);
+    const [startX, setStartX] = useState(0);
 
     const handleMouseDown = (e) => {
         // On enregistre la position Y (verticale) au moment du clic
         setStartY(e.clientY);
+        setStartX(e.clientX);
     };
 
     const handleMouseUp = (e) => {
         // On calcule la distance parcourue vers le bas
-        const distance = e.clientY - startY;
-
+        const distanceX = Math.abs(e.clientX - startX);
+        const distanceY = Math.abs(e.clientY - startY);
+        const distance = distanceX + distanceY;
         // Si on a descendu la souris de plus de 100 pixels
-        if (distance > 100) {
+        if (distance > 80) {
             alert("MIIIIAAAAOUUU ! 🙀 (Redirection...)");
             router.push('/secret-page'); // <--- Mets ici l'URL de ta nouvelle page
         }
