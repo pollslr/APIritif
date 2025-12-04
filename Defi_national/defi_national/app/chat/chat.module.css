@@ -94,3 +94,26 @@
     background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
     color: white;
 }
+
+
+/* La zone de la queue */
+.tailZone {
+    position: absolute;
+    /* À ajuster selon où se trouve la queue sur TA photo */
+    top: 20%;
+    right: 0%;
+    width: 400px;  /* Largeur de la zone sensible */
+    height: 80px; /* Hauteur de la zone sensible */
+
+    /* Curseur pour indiquer qu'on peut attraper */
+    transform: rotate(-36deg);
+    cursor: grab;
+    z-index: 10;
+
+    /* Pour le debug : mets une couleur temporaire (ex: red) pour voir où elle est */
+    /*background-color: rgba(255, 0, 0, 0.3);*/
+}
+
+.tailZone:active {
+    cursor: grabbing; /* Le curseur se ferme quand on clique */
+}
