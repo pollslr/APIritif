@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from "next/image";
+import Button from "./components/button";
 import Link from "next/link";
 import '@/app/style.css';
 
@@ -43,7 +44,28 @@ export default function Home() {
                 <div>
                     <h2>Qui sommes-nous ?</h2>
                 </div>
+                <Section title={""} content={""}>
+
+                </Section>
+
+                <Button text={"Test"}/>
+
+                <Section title={""}/>
+
+                <Section title={"Contribuez"} content={""}/>
             </main>
+        </div>
+    );
+}
+
+function Section({title, content, children}: {title: string, content: string, children?: Element[]}) {
+    return (
+        <div>
+            <h2>{title}</h2>
+            <p>{content}</p>
+            <div>
+                {children}
+            </div>
         </div>
     );
 }

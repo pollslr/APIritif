@@ -1,0 +1,96 @@
+.container {
+    display: flex;
+    height: 100vh; /* Prend toute la hauteur de l'écran */
+    width: 100%;
+    background-color: #f4f4f9;
+}
+
+/* --- GAUCHE : Zone de dialogue --- */
+.chatInterface {
+    width: 50%; /* 50% de la largeur */
+    display: flex;
+    flex-direction: column;
+    background: gray;
+    border-right: 1px solid #e0e0e0;
+    padding: 2rem;
+}
+
+.messagesArea {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.message {
+    padding: 1rem;
+    border-radius: 12px;
+    max-width: 80%;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.userMessage {
+    align-self: flex-end;
+    background-color: #2563eb; /* Bleu */
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+
+.botMessage {
+    align-self: flex-start;
+    background-color: #f3f4f6; /* Gris clair */
+    color: #1f2937;
+    border-bottom-left-radius: 2px;
+}
+
+.inputForm {
+    display: flex;
+    gap: 10px;
+}
+
+.input {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.button {
+    padding: 12px 24px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.button:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+}
+
+/* --- DROITE : Image --- */
+.imageInterface {
+    width: 50%;
+    position: relative;
+    /* Image de fond (remplace par ton image locale si besoin) */
+    background-image: url('bibus.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Filtre sombre pour le texte sur l'image */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 3rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+}
