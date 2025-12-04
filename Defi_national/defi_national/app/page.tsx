@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Button from "./components/button";
 
 export default function Home() {
     return (
@@ -8,8 +9,28 @@ export default function Home() {
                 <h2>Qui nous sommes</h2>
             </div>
             
+            <Section title={""} content={""}>
+                
+            </Section>
             
+            <Button text={"Test"}/>
+            
+            <Section title={""}/>
+            
+            <Section title={"Contribuez"} content={""}/>
         </main>
     </div>
+    );
+}
+
+function Section({title, content, children}: {title: string, content: string, children?: Element[]}) {
+    return (
+        <div>
+            <h2>{title}</h2>
+            <p>{content}</p>
+            <div>
+                {children}
+            </div>
+        </div>
     );
 }
