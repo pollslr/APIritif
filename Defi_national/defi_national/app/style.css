@@ -1,0 +1,15 @@
+.Logo {
+    display: flex;
+    justify-content: center;
+    margin: 70px auto;
+    opacity:0.6;
+    transform: scale(1);
+    transition: transform .2s ease;
+}
+
+.Logo:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    transition: transform .2s ease;
+}
+
