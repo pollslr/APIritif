@@ -8,20 +8,26 @@ import QCM from "@/app/components/qcm";
 import Link from "next/link";
 import '@/app/style.css';
 
-import { Parallax } from 'react-parallax';
+import {Background, Parallax} from 'react-parallax';
 
 export default function Home() {
     return (
-    <Parallax bgImage="/fond1.webp" className={"px-16 teun"} contentClassName={"flex flex-col min-h-screen w-full"}>
-        <div className="Logo mx-auto">
+    <Parallax bgImage="/fond1.png" className={"px-16 teun"} contentClassName={"flex flex-col min-h-screen w-full"} strength={200}>
+        <div className="Logo mx-auto my-[calc(50vh-125px)]">
             <Link href="/"><Image src='/img/nird_logo.png' alt="Logo NIRD" width={484} height={200} className="justify-center"/></Link>
         </div>
+
+        <Background className="custom-bg mt-[150vh]">
+            <img src="/phrise.png" alt="Zbi" />
+        </Background>
         
-        <Section title={"1946 - Premier ordinateur"} content={"150 kW de consommation, c'est beaucoup mais c'est le progrès !"}/>
+        <h1 className={"mt-30 mb-80 mx-auto"}>Petit historique du numérique</h1>
+        
+        <Section side={true} title={"1946 - Premier ordinateur"} content={"150 kW de consommation, c'est beaucoup mais c'est le progrès !"}/>
 
-        <Section side={true} title={"1969 - Débuts d'internet"} content={"ARPANET, 4 ordinateurs connectées, champagne !"}/>
+        <Section title={"1969 - Débuts d'internet"} content={"ARPANET, 4 ordinateurs connectées, champagne !"}/>
 
-        <Section title={"Test"} content={"Ceci est un test"}>
+        <Section side={true} title={"Test"} content={"Ceci est un test"}>
             <QCM question={"Qui est correcte?"} reponses={[{"Oui": true, "Faux": false, "Incorrecte": false}]}/>
         </Section>
         
@@ -32,7 +38,7 @@ export default function Home() {
 
 function Section({title, content, side = false, children}: {title: string, content: string, side?: boolean, children?: ReactNode}) {
     return (
-        <div className={"flex flex-col my-20 ".concat(side ? "ml-auto" : "mr-auto")}>
+        <div className={"flex flex-col my-30 ".concat(side ? "ml-auto" : "mr-auto")}>
             <h2 className={"mx-auto mb-3"}>{title}</h2>
             <p>{content}</p>
             <div className={"mt-2"}>
