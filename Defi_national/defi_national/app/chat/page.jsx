@@ -39,7 +39,7 @@ export default function ChatPage() {
         // Si on a descendu la souris de plus de 100 pixels
         if (distance > 80) {
             alert("MIIIIAAAAOUUU ! 🙀 (Redirection...)");
-            router.push('/secret-page'); // <--- Mets ici l'URL de ta nouvelle page
+            router.push('../snake'); // <--- Mets ici l'URL de ta nouvelle page
         }
     };
 
