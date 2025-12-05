@@ -3,6 +3,7 @@ Groupe API-ritif
 ## Lancement du site web
 
 ```bash
+npm install
 npm run dev
 ```
 
