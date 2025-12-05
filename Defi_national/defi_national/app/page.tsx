@@ -18,7 +18,7 @@ export default function Home() {
         </div>
 
         <div className="absolute custom-bg mt-[150vh]">
-            <img src="/phrise.png" alt="Zbi" />
+            <img src="/phrise.png" alt="Phrise" />
         </div>
 
         <h1 className={"mt-30 mb-50 mx-auto"}>Petit historique du numérique</h1>
@@ -61,7 +61,11 @@ export default function Home() {
         </Section>
 
         <h2 className={"mt-30 mb-20 mx-auto"}>Besoin d'une recherche personalisée sur le NIRD ? Demandez à notre assistant IA, cliquez sur ce chat !</h2>
-        <Link href="/chat"><Image src='/cat.webp' alt="Chat PIXEL" width={200} height={200} className="flex mx-auto justify-center mb-50"/></Link>
+        <Link href="/chat"><Image src='/cat.webp' alt="Chat PIXEL" width={200} height={200} className="flex mx-auto justify-center mb-50 cat"/></Link>
+
+        <h2 className={" mb-20 mx-auto"}>Vous jugez votre usage du numérique (trop) intensif ? Soufflez un coup, voici nos conseils pour faire une activité sportive !</h2>
+        <Link href="/decathlon"><Image src='/sport.png' alt="Sport icon" width={200} height={200} className="flex mx-auto justify-center mb-50 cat"/></Link>
+
         <h3 className={"mb-5 mx-auto"}>Nuit de l'Info 2025 - API-Ritif team</h3>
 
     </Parallax>
