@@ -1,16 +1,16 @@
 import { Coordinate } from "./SnakeGame";
 
-type SnakeMovements = "to right" | "to left" | "to bottom" | "to top";
+export type SnakeMovements = "to right" | "to left" | "to bottom" | "to top";
 
 export default class Snake {
-  private movement: SnakeMovements;
+  private _movement: SnakeMovements;
   private _bodyCoordinates: Coordinate[];
   private allowMovementChange: boolean;
   justAte: boolean;
   readonly defaultlength: number;
 
   constructor() {
-    this.movement = "to right";
+    this._movement = "to right";
     this.defaultlength = 3;
     this.allowMovementChange = true;
     this.justAte = false;
@@ -31,6 +31,10 @@ export default class Snake {
     return this._bodyCoordinates.length;
   }
 
+  get movement() {
+    return this._movement;
+  }
+
   get bodyCoordinates() {
     return this._bodyCoordinates;
   }
@@ -44,21 +48,41 @@ export default class Snake {
     return this._bodyCoordinates[this._bodyCoordinates.length - 1];
   }
 
+  // La queue est TOUJOURS le premier élément du tableau
+  get tailCoordinate(): Coordinate {
+    return this._bodyCoordinates[0];
+  }
+
+  // Direction de la queue (pointe vers le segment suivant)
+  get tailDirection(): SnakeMovements {
+    if (this._bodyCoordinates.length < 2) return this._movement;
+
+    const tail = this._bodyCoordinates[0];
+    const nextSegment = this._bodyCoordinates[1];
+
+    if (nextSegment.col > tail.col) return "to right";
+    if (nextSegment.col < tail.col) return "to left";
+    if (nextSegment.row > tail.row) return "to bottom";
+    if (nextSegment.row < tail.row) return "to top";
+
+    return this._movement;
+  }
+
   changeMovement(newMove: SnakeMovements) {
     if (!this.allowMovementChange) return;
 
     const oppositeRows =
-        (newMove === "to bottom" && this.movement === "to top") ||
-        (newMove === "to top" && this.movement === "to bottom");
+        (newMove === "to bottom" && this._movement === "to top") ||
+        (newMove === "to top" && this._movement === "to bottom");
 
     const oppositeColumns =
-        (newMove === "to right" && this.movement === "to left") ||
-        (newMove === "to left" && this.movement === "to right");
+        (newMove === "to right" && this._movement === "to left") ||
+        (newMove === "to left" && this._movement === "to right");
 
     // Interdire un demi-tour instantané
     if (oppositeRows || oppositeColumns) return;
 
-    this.movement = newMove;
+    this._movement = newMove;
     this.allowMovementChange = false;
   }
 
@@ -69,7 +93,7 @@ export default class Snake {
   move(foodCoord: Coordinate) {
     let nextHead: Coordinate = { ...this.headCoordinate };
 
-    switch (this.movement) {
+    switch (this._movement) {
       case "to right":
         nextHead.col += 1;
         break;

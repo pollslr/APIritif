@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Agbalumo&display=swap");
 
 #snakes-game-container {
-  background-color: #ffffdd;
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
   min-height: 100vh;
   cursor: pointer;
   overflow: hidden;
@@ -9,17 +9,17 @@
 
 #game-title {
   text-align: center;
-  background-color: #a2c579;
-  color: #222;
+  background: linear-gradient(135deg, #7b2cbf 0%, #c77dff 50%, #e0aaff 100%);
+  color: white;
   font-size: 2.5rem;
   padding-block: 1.5rem;
-
   font-family: Agbalumo, "Red Hat Display", sans-serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .high-score {
-  background-color: #d2de32;
-  color: black;
+  background: linear-gradient(135deg, #7b2cbf 0%, #c77dff 100%);
+  color: white;
   font-variant: small-caps;
   text-align: center;
   font-size: 1.5rem;
@@ -29,6 +29,7 @@
   margin-top: 1rem;
   padding: 0.2rem 1rem;
   border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(123, 44, 191, 0.4);
 }
 
 .score {
@@ -41,30 +42,33 @@
 }
 
 .score > span:first-child {
-  background-color: #61a3ba;
+  background: linear-gradient(135deg, #5a67d8 0%, #7b2cbf 100%);
   color: white;
   padding-block: 0.5rem;
   padding-inline: 1rem 0.3rem;
   border-top-left-radius: 1rem;
   border-bottom-left-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(90, 103, 216, 0.3);
 }
 
 .score > span:last-child {
-  background-color: #d2de32;
-  color: #222;
+  background: linear-gradient(135deg, #ffd60a 0%, #ffc300 100%);
+  color: #1a1a2e;
   padding-block: 0.5rem;
   padding-inline: 0.8rem 1rem;
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(255, 214, 10, 0.3);
 }
 
 .new-game-hint {
   text-align: center;
-  color: black;
+  color: #e0aaff;
   font-weight: 900;
   font-size: 1.5rem;
   animation: teeter 2s linear infinite;
   margin-top: 2rem;
+  text-shadow: 0 0 10px rgba(224, 170, 255, 0.5);
 }
 
 @keyframes teeter {
@@ -86,23 +90,24 @@
 .pause-hint {
   text-align: center;
   font-style: italic;
-  color: #333;
+  color: #c77dff;
 }
 
 .pause-hint kbd {
   display: inline-block;
   padding: 0.2rem 0.5rem;
-  background-color: #333;
-  color: salmon;
+  background: linear-gradient(135deg, #7b2cbf 0%, #c77dff 100%);
+  color: white;
   border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(123, 44, 191, 0.4);
 }
 
 #game-over-modal-container {
   position: fixed;
   inset: 0;
-  outline: 1px solid red;
-  background-color: #a2c579;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(15, 15, 30, 0.95) 100%);
   cursor: pointer;
+  backdrop-filter: blur(10px);
 }
 
 #game-over-modal {
@@ -110,7 +115,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid #7b2cbf;
 
   width: 700px;
   height: 300px;
@@ -120,44 +126,54 @@
   text-align: center;
   border-radius: 10px;
 
-  box-shadow: 0 0 10px 5px black, 0 0 100px 10px black;
+  box-shadow: 0 0 30px rgba(123, 44, 191, 0.6), 0 0 60px rgba(199, 125, 255, 0.4);
 }
 
 #game-over-modal > h2 {
   font-size: 4em;
+  background: linear-gradient(135deg, #7b2cbf 0%, #c77dff 50%, #e0aaff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .final-score {
   font-size: 1.3em;
+  color: #e0aaff;
 }
 
 .final-score > span {
   font-weight: 900;
   font-size: 2rem;
+  background: linear-gradient(135deg, #ffd60a 0%, #ffc300 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .congratulate {
   margin-block: 0.5rem;
   font-size: 1.5rem;
-  background-color: #61a3ba;
+  background: linear-gradient(135deg, #7b2cbf 0%, #c77dff 100%);
   color: white;
   padding-inline: 0.5rem;
   font-weight: 900;
   border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(123, 44, 191, 0.4);
 }
 
 #paused-modal-container {
   position: fixed;
   inset: 0;
-  background-color: hsla(0, 0%, 10%, 0.7);
-
+  background-color: rgba(26, 26, 46, 0.8);
+  backdrop-filter: blur(5px);
   cursor: pointer;
 }
 
 #paused-modal {
   width: 500px;
   height: 300px;
-  background-color: #61a3ba;
+  background: linear-gradient(135deg, #7b2cbf 0%, #c77dff 100%);
   color: white;
   position: absolute;
   top: 50%;
@@ -167,10 +183,12 @@
   place-content: center;
   border-radius: 1rem;
   text-align: center;
+  box-shadow: 0 0 30px rgba(123, 44, 191, 0.6);
 }
 
 #paused-modal > h2 {
   font-size: 3rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #paused-modal > .click-dir {
@@ -178,7 +196,7 @@
 }
 
 .click-dir {
-  color: hsl(0, 0%, 30%);
+  color: #e0aaff;
   font-style: italic;
   font-size: 1.3rem;
 }

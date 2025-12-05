@@ -5,6 +5,7 @@ type Cell = "snake" | "food" | null;
 // Charger les images uniquement côté client
 let tete: HTMLImageElement | null = null;
 let corps: HTMLImageElement | null = null;
+let queue: HTMLImageElement | null = null;
 let imagesLoaded = false;
 
 const loadImages = () => {
@@ -13,9 +14,11 @@ const loadImages = () => {
 
   tete = new Image();
   corps = new Image();
+  queue = new Image();
 
   tete.src = "img/tete.png";
   corps.src = "img/corps.png";
+  queue.src = "img/queue.png";
 
   return Promise.all([
     new Promise<void>((resolve) => {
@@ -32,6 +35,15 @@ const loadImages = () => {
       else if (corps) {
         corps.onload = () => resolve();
         corps.onerror = () => { console.error("Erreur chargement corps.png"); resolve(); };
+      } else {
+        resolve();
+      }
+    }),
+    new Promise<void>((resolve) => {
+      if (queue && queue.complete && queue.naturalWidth !== 0) resolve();
+      else if (queue) {
+        queue.onload = () => resolve();
+        queue.onerror = () => { console.error("Erreur chargement queue.png"); resolve(); };
       } else {
         resolve();
       }
@@ -200,12 +212,55 @@ export class SnakeGameEngine {
               this.snake.headCoordinate.row === rowIndex &&
               this.snake.headCoordinate.col === colIndex;
 
-          const img = isHead ? tete : corps;
+          const isTail =
+              this.snake.tailCoordinate.row === rowIndex &&
+              this.snake.tailCoordinate.col === colIndex;
+
+          let img = corps;
+          let direction = this.snake.movement;
+
+          if (isHead) {
+            img = tete;
+            direction = this.snake.movement;
+          } else if (isTail) {
+            img = queue;
+            direction = this.snake.tailDirection;
+          }
 
           if (imagesLoaded && img && img.complete && img.naturalWidth !== 0) {
-            this.context.drawImage(img, x, y, cellWidth, cellHeight);
+            // Si c'est la tête ou la queue, appliquer une rotation selon la direction
+            if (isHead || isTail) {
+              this.context.save();
+
+              // Se déplacer au centre de la cellule
+              this.context.translate(x + cellWidth / 2, y + cellHeight / 2);
+
+              // Rotation selon la direction
+              switch (direction) {
+                case "to right":
+                  this.context.rotate(0); // 0°
+                  break;
+                case "to bottom":
+                  this.context.rotate(Math.PI / 2); // 90°
+                  break;
+                case "to left":
+                  this.context.rotate(Math.PI); // 180°
+                  break;
+                case "to top":
+                  this.context.rotate(-Math.PI / 2); // -90°
+                  break;
+              }
+
+              // Dessiner l'image centrée
+              this.context.drawImage(img, -cellWidth / 2, -cellHeight / 2, cellWidth, cellHeight);
+
+              this.context.restore();
+            } else {
+              // Pour le corps, pas de rotation
+              this.context.drawImage(img, x, y, cellWidth, cellHeight);
+            }
           } else {
-            this.context.fillStyle = isHead ? "#2E7D32" : "#A2C579";
+            this.context.fillStyle = isHead ? "#2E7D32" : (isTail ? "#8BC34A" : "#A2C579");
             this.context.fillRect(x, y, cellWidth, cellHeight);
           }
         }
