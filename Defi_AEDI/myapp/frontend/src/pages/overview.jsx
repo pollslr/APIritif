@@ -3,27 +3,22 @@ import CityDropdown from '../components/Dropdown';
 import Plot from 'react-plotly.js';
 import Navbar from '../components/Navbar';
 
-const API_KEY = 'ef7b38afd13444eda85131011253004';
+const cities = ['Paris', 'London'];
 
-const cities = ['Paris', 'London', 'New York', 'Tokyo', 'Sydney', "Amsterdam"];
-
-export default function Overview() 
-{
+export default function Overview() {
   const [selectedCity, setSelectedCity] = useState('');
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
 
-  useEffect(() => 
-    {
-
-        if (!selectedCity) return;
-        const fetchWeather = async () => 
-            {
-                const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${selectedCity}&days=1&aqi=no&alerts=no`);
-                const data = await res.json();
-                setWeatherData(data.current);
-                setForecastData(data.forecast.forecastday[0].hour);
-            };
+  useEffect(() => {
+    if (!selectedCity) return;
+    
+    const fetchWeather = async () => {
+      const res = await fetch(`http://localhost:5000/api/weather?city=${selectedCity}`);
+      const data = await res.json();
+      setWeatherData(data.current);
+      setForecastData(data.forecast);
+    };
 
     fetchWeather();
   }, [selectedCity]);
@@ -73,9 +68,9 @@ export default function Overview()
                 },
               ]}
               layout={{
-                title: {text: '24-hour temperature trend'},
-                xaxis: { title: {text:'Hour' }},
-                yaxis: { title: {text:'Température (°C)' }},
+                title: { text: '24-hour temperature trend' },
+                xaxis: { title: { text: 'Hour' } },
+                yaxis: { title: { text: 'Température (°C)' } },
                 width: 800,
                 height: 400,
               }}
@@ -93,9 +88,9 @@ export default function Overview()
                 },
               ]}
               layout={{
-                title: { text: '24-hour wind trend'},
-                xaxis: { title: {text: 'Hour' }},
-                yaxis: { title: {text:'Vent (kph)' }},
+                title: { text: '24-hour wind trend' },
+                xaxis: { title: { text: 'Hour' } },
+                yaxis: { title: { text: 'Vent (kph)' } },
                 width: 800,
                 height: 400,
               }}
