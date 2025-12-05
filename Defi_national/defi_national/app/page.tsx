@@ -59,7 +59,9 @@ export default function Home() {
         <Section side={3} title={"Question 5 : Inclusion numérique"} content={""}>
             <QCM question={"Quelle initiative lutte le mieux contre l'illectronisme ?"} reponses={[{"A) Proposer des ateliers de médiation numérique": true, "B) Distribuer des tablettes gratuites": false, "C) Rendre tous les services disponibles uniquement en ligne": false}]}/>
         </Section>
-        
+
+        <h2 className={"mt-30 mb-20 mx-auto"}>Un petit retour nostalgique sur le numérique des années 2000/2010 ?</h2>
+
         <div className="relative z-10 flex flex-col m-auto w-52 h-96 rounded-xl overflow-clip bg-black">
             <div className={"mx-auto mt-1 w-2 h-2 rounded-full bg-gray-800"}/>
             <Disco/>
