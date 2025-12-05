@@ -6,6 +6,7 @@ type Cell = "snake" | "food" | null;
 let tete: HTMLImageElement | null = null;
 let corps: HTMLImageElement | null = null;
 let queue: HTMLImageElement | null = null;
+let nourriture: HTMLImageElement | null = null;
 let imagesLoaded = false;
 
 const loadImages = () => {
@@ -15,10 +16,12 @@ const loadImages = () => {
   tete = new Image();
   corps = new Image();
   queue = new Image();
+  nourriture = new Image();
 
   tete.src = "img/tete.png";
   corps.src = "img/corps.png";
   queue.src = "img/queue.png";
+  nourriture.src = "img/nourriture.png";
 
   return Promise.all([
     new Promise<void>((resolve) => {
@@ -44,6 +47,15 @@ const loadImages = () => {
       else if (queue) {
         queue.onload = () => resolve();
         queue.onerror = () => { console.error("Erreur chargement queue.png"); resolve(); };
+      } else {
+        resolve();
+      }
+    }),
+    new Promise<void>((resolve) => {
+      if (nourriture && nourriture.complete && nourriture.naturalWidth !== 0) resolve();
+      else if (nourriture) {
+        nourriture.onload = () => resolve();
+        nourriture.onerror = () => { console.error("Erreur chargement nourriture.png"); resolve(); };
       } else {
         resolve();
       }
@@ -225,49 +237,64 @@ export class SnakeGameEngine {
           } else if (isTail) {
             img = queue;
             direction = this.snake.tailDirection;
+          } else {
+            // Pour le corps, calculer la direction du segment
+            img = corps;
+            const segmentIndex = this.snake.bodyCoordinates.findIndex(
+                coord => coord.row === rowIndex && coord.col === colIndex
+            );
+
+            if (segmentIndex > 0 && segmentIndex < this.snake.bodyCoordinates.length - 1) {
+              const currentSegment = this.snake.bodyCoordinates[segmentIndex];
+              const nextSegment = this.snake.bodyCoordinates[segmentIndex + 1];
+
+              // Direction vers le segment suivant (vers la tête)
+              if (nextSegment.col > currentSegment.col) direction = "to right";
+              else if (nextSegment.col < currentSegment.col) direction = "to left";
+              else if (nextSegment.row > currentSegment.row) direction = "to bottom";
+              else if (nextSegment.row < currentSegment.row) direction = "to top";
+            }
           }
 
           if (imagesLoaded && img && img.complete && img.naturalWidth !== 0) {
-            // Si c'est la tête ou la queue, appliquer une rotation selon la direction
-            if (isHead || isTail) {
-              this.context.save();
+            this.context.save();
 
-              // Se déplacer au centre de la cellule
-              this.context.translate(x + cellWidth / 2, y + cellHeight / 2);
+            // Se déplacer au centre de la cellule
+            this.context.translate(x + cellWidth / 2, y + cellHeight / 2);
 
-              // Rotation selon la direction
-              switch (direction) {
-                case "to right":
-                  this.context.rotate(0); // 0°
-                  break;
-                case "to bottom":
-                  this.context.rotate(Math.PI / 2); // 90°
-                  break;
-                case "to left":
-                  this.context.rotate(Math.PI); // 180°
-                  break;
-                case "to top":
-                  this.context.rotate(-Math.PI / 2); // -90°
-                  break;
-              }
-
-              // Dessiner l'image centrée
-              this.context.drawImage(img, -cellWidth / 2, -cellHeight / 2, cellWidth, cellHeight);
-
-              this.context.restore();
-            } else {
-              // Pour le corps, pas de rotation
-              this.context.drawImage(img, x, y, cellWidth, cellHeight);
+            // Rotation selon la direction
+            switch (direction) {
+              case "to right":
+                this.context.rotate(0); // 0°
+                break;
+              case "to bottom":
+                this.context.rotate(Math.PI / 2); // 90°
+                break;
+              case "to left":
+                this.context.rotate(Math.PI); // 180°
+                break;
+              case "to top":
+                this.context.rotate(-Math.PI / 2); // -90°
+                break;
             }
+
+            // Dessiner l'image centrée
+            this.context.drawImage(img, -cellWidth / 2, -cellHeight / 2, cellWidth, cellHeight);
+
+            this.context.restore();
           } else {
-            this.context.fillStyle = isHead ? "#2E7D32" : (isTail ? "#8BC34A" : "#A2C579");
+            this.context.fillStyle = isHead ? "#7b2cbf" : (isTail ? "#c77dff" : "#9d4edd");
             this.context.fillRect(x, y, cellWidth, cellHeight);
           }
         }
 
         if (cell === "food") {
-          this.context.fillStyle = "salmon";
-          this.context.fillRect(x, y, cellWidth, cellHeight);
+          if (imagesLoaded && nourriture && nourriture.complete && nourriture.naturalWidth !== 0) {
+            this.context.drawImage(nourriture, x, y, cellWidth, cellHeight);
+          } else {
+            this.context.fillStyle = "#ffd60a";
+            this.context.fillRect(x, y, cellWidth, cellHeight);
+          }
         }
       });
     });
