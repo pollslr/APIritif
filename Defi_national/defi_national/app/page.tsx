@@ -1,7 +1,6 @@
 'use client';
 
 import Image from "next/image";
-import Button from "./components/button";
 import {ReactNode} from "react";
 import QCM from "@/app/components/qcm";
 
@@ -9,6 +8,7 @@ import Link from "next/link";
 import '@/app/style.css';
 
 import {Background, Parallax} from 'react-parallax';
+import Disco from "@/app/components/disco";
 
 export default function Home() {
     return (
@@ -59,6 +59,11 @@ export default function Home() {
         <Section side={3} title={"Question 5 : Inclusion numérique"} content={""}>
             <QCM question={"Quelle initiative lutte le mieux contre l'illectronisme ?"} reponses={[{"A) Proposer des ateliers de médiation numérique": true, "B) Distribuer des tablettes gratuites": false, "C) Rendre tous les services disponibles uniquement en ligne": false}]}/>
         </Section>
+        
+        <div className="relative z-10 flex flex-col m-auto w-52 h-96 rounded-xl overflow-clip bg-black">
+            <div className={"mx-auto mt-1 w-2 h-2 rounded-full bg-gray-800"}/>
+            <Disco/>
+        </div>
 
         <h2 className={"mt-30 mb-20 mx-auto"}>Besoin d'une recherche personalisée sur le NIRD ? Demandez à notre assistant IA, cliquez sur ce chat !</h2>
         <Link href="/chat"><Image src='/cat.webp' alt="Chat PIXEL" width={200} height={200} className="flex mx-auto justify-center mb-50 cat"/></Link>

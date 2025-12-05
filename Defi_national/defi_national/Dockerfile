@@ -9,7 +9,7 @@ RUN npm install
 
 ADD app/ ./app/
 ADD public/ ./public/
-ADD tsconfig.json next-env.d.ts next.config.ts postcss.config.mjs ./
+ADD tsconfig.json next-env.d.ts next.config.ts postcss.config.mjs .env.local ./
 RUN npm run build
 
 CMD ["npm", "start"]
