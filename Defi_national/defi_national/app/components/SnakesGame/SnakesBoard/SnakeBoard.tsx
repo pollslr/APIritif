@@ -12,12 +12,12 @@ interface SnakeGameBoard {
 }
 
 export default function SnakeBoard({
-  isPlaying,
-  setIsPlaying,
-  externalScore,
-  setScore,
-  setIsGameOver,
-}: SnakeGameBoard) {
+                                     isPlaying,
+                                     setIsPlaying,
+                                     externalScore,
+                                     setScore,
+                                     setIsGameOver,
+                                   }: SnakeGameBoard) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const context = useRef<CanvasRenderingContext2D | null>(null);
 
@@ -37,14 +37,17 @@ export default function SnakeBoard({
     if (context.current) {
       const ctx = context.current;
       snakes.current = new SnakeGameEngine(
-        ctx,
-        canvasSidesLength,
-        externalScore,
-        setScore,
-        setIsGameOver,
-        isPlaying
+          ctx,
+          canvasSidesLength,
+          externalScore,
+          setScore,
+          setIsGameOver,
+          isPlaying
       );
       const snakeGame = snakes.current;
+
+      // Démarrer le jeu immédiatement
+      snakeGame.start();
 
       window.onkeydown = (e) => {
         switch (e.key) {
@@ -76,21 +79,30 @@ export default function SnakeBoard({
     }
 
     return () => {
+      // Arrêter l'animation lors du cleanup
+      if (snakes.current) {
+        snakes.current.stop();
+      }
       canvasRef.current = null;
       context.current = null;
       snakes.current = null;
     };
   }, []);
 
+  // Gérer play/pause avec start() et stop()
   useEffect(() => {
     if (snakes.current) {
-      snakes.current.animate(isPlaying);
+      if (isPlaying) {
+        snakes.current.start();
+      } else {
+        snakes.current.stop();
+      }
     }
   }, [isPlaying]);
 
   return (
-    <div>
-      <canvas id="game-canvas" ref={canvasRef}></canvas>
-    </div>
+      <div>
+        <canvas id="game-canvas" ref={canvasRef}></canvas>
+      </div>
   );
 }

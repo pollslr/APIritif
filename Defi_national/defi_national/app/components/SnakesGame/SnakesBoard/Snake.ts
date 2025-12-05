@@ -4,7 +4,6 @@ type SnakeMovements = "to right" | "to left" | "to bottom" | "to top";
 
 export default class Snake {
   private movement: SnakeMovements;
-  private _headCoordinate: Coordinate;
   private _bodyCoordinates: Coordinate[];
   private allowMovementChange: boolean;
   justAte: boolean;
@@ -12,14 +11,20 @@ export default class Snake {
 
   constructor() {
     this.movement = "to right";
-    this._bodyCoordinates = [];
     this.defaultlength = 3;
-    this._headCoordinate = {
-      row: -1,
-      col: -1,
-    };
     this.allowMovementChange = true;
     this.justAte = false;
+
+    // Initialisation du serpent (une seule fois)
+    const start: Coordinate = { row: 1, col: 1 };
+    this._bodyCoordinates = [];
+
+    for (let i = 0; i < this.defaultlength; i++) {
+      this._bodyCoordinates.push({
+        row: start.row,
+        col: start.col + i
+      });
+    }
   }
 
   get length() {
@@ -27,18 +32,6 @@ export default class Snake {
   }
 
   get bodyCoordinates() {
-    if (this._bodyCoordinates.length === 0) {
-      const initialPoint: Coordinate = {
-        row: 1,
-        col: 1,
-      };
-      for (let i = 1; i <= this.defaultlength; i++) {
-        this._bodyCoordinates.push({
-          row: initialPoint.row,
-          col: initialPoint.col * i,
-        });
-      }
-    }
     return this._bodyCoordinates;
   }
 
@@ -46,34 +39,24 @@ export default class Snake {
     this._bodyCoordinates = newSnakeCoords;
   }
 
-  get headCoordinate() {
-    if (this._headCoordinate.row < 0 || this._headCoordinate.col < 0) {
-      this._headCoordinate = this.bodyCoordinates[this.length - 1];
-    }
-
-    return this._headCoordinate;
-  }
-
-  private set headCoordinate(newCoord: Coordinate) {
-    this._headCoordinate = newCoord;
+  // La tête est TOUJOURS le dernier élément du tableau
+  get headCoordinate(): Coordinate {
+    return this._bodyCoordinates[this._bodyCoordinates.length - 1];
   }
 
   changeMovement(newMove: SnakeMovements) {
-    if (!this.allowMovementChange) {
-      return;
-    }
+    if (!this.allowMovementChange) return;
 
-    const rowOpposite =
-      (newMove === "to bottom" && this.movement === "to top") ||
-      (newMove === "to top" && this.movement === "to bottom");
-    const columnOpposite =
-      (newMove === "to right" && this.movement === "to left") ||
-      (newMove === "to left" && this.movement === "to right");
+    const oppositeRows =
+        (newMove === "to bottom" && this.movement === "to top") ||
+        (newMove === "to top" && this.movement === "to bottom");
 
-    if (rowOpposite || columnOpposite) {
-      // just ignore the oposing movement
-      return;
-    }
+    const oppositeColumns =
+        (newMove === "to right" && this.movement === "to left") ||
+        (newMove === "to left" && this.movement === "to right");
+
+    // Interdire un demi-tour instantané
+    if (oppositeRows || oppositeColumns) return;
 
     this.movement = newMove;
     this.allowMovementChange = false;
@@ -84,53 +67,38 @@ export default class Snake {
   }
 
   move(foodCoord: Coordinate) {
-    // TODO: Set justAte if has eaten or not
-
     let nextHead: Coordinate = { ...this.headCoordinate };
 
     switch (this.movement) {
       case "to right":
-        nextHead = {
-          ...nextHead,
-          col: this.headCoordinate.col + 1,
-        };
+        nextHead.col += 1;
         break;
       case "to left":
-        nextHead = {
-          ...nextHead,
-          col: this.headCoordinate.col - 1,
-        };
+        nextHead.col -= 1;
         break;
       case "to top":
-        nextHead = {
-          ...nextHead,
-          row: this.headCoordinate.row - 1,
-        };
+        nextHead.row -= 1;
         break;
       case "to bottom":
-        nextHead = {
-          ...nextHead,
-          row: this.headCoordinate.row + 1,
-        };
+        nextHead.row += 1;
         break;
-      default:
-        throw new Error(`Snake movement is invalid: ${this.movement}`);
     }
+
+    // Nouveau serpent
+    let newSnakeCoordinates = [...this._bodyCoordinates];
+
     if (this.canEat(nextHead, foodCoord)) {
-      // we don't cut the snake
-      const newSnakeCoordinates = [...this.bodyCoordinates];
-      this.headCoordinate = nextHead;
-      newSnakeCoordinates.push(this.headCoordinate);
-      this.bodyCoordinates = newSnakeCoordinates;
-      this.allowMovementChange = true;
+      // Le serpent grandit
+      newSnakeCoordinates.push(nextHead);
       this.justAte = true;
     } else {
-      const newSnakeCoordinates = this.bodyCoordinates.slice(1);
-      this.headCoordinate = nextHead;
-      newSnakeCoordinates.push(this.headCoordinate);
-      this.bodyCoordinates = newSnakeCoordinates;
-      this.allowMovementChange = true;
+      // Avancer : retirer la queue, ajouter une tête
+      newSnakeCoordinates.shift();
+      newSnakeCoordinates.push(nextHead);
       this.justAte = false;
     }
+
+    this.bodyCoordinates = newSnakeCoordinates;
+    this.allowMovementChange = true;
   }
 }

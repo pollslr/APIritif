@@ -1,42 +1,39 @@
 import Snake from "./Snake";
-import teteImg from "../../assets/tete.png";
-import corpsImg from "../../assets/corps.png";
 
 type Cell = "snake" | "food" | null;
 
-// Charger les images
-const tete = new Image();
-const corps = new Image();
-
-tete.src = teteImg;
-corps.src = corpsImg;
-
-// Variable pour tracker si les images sont chargées
+// Charger les images uniquement côté client
+let tete: HTMLImageElement | null = null;
+let corps: HTMLImageElement | null = null;
 let imagesLoaded = false;
 
-// Charger les images de manière asynchrone
 const loadImages = () => {
+  // Vérifier qu'on est côté client
+  if (typeof window === "undefined") return Promise.resolve();
+
+  tete = new Image();
+  corps = new Image();
+
+  tete.src = "img/tete.png";
+  corps.src = "img/corps.png";
+
   return Promise.all([
     new Promise<void>((resolve) => {
-      if (tete.complete && tete.naturalWidth !== 0) {
-        resolve();
-      } else {
+      if (tete && tete.complete && tete.naturalWidth !== 0) resolve();
+      else if (tete) {
         tete.onload = () => resolve();
-        tete.onerror = () => {
-          console.error("Erreur chargement tete.png");
-          resolve();
-        };
+        tete.onerror = () => { console.error("Erreur chargement tete.png"); resolve(); };
+      } else {
+        resolve();
       }
     }),
     new Promise<void>((resolve) => {
-      if (corps.complete && corps.naturalWidth !== 0) {
-        resolve();
-      } else {
+      if (corps && corps.complete && corps.naturalWidth !== 0) resolve();
+      else if (corps) {
         corps.onload = () => resolve();
-        corps.onerror = () => {
-          console.error("Erreur chargement corps.png");
-          resolve();
-        };
+        corps.onerror = () => { console.error("Erreur chargement corps.png"); resolve(); };
+      } else {
+        resolve();
       }
     })
   ]).then(() => {
@@ -45,8 +42,10 @@ const loadImages = () => {
   });
 };
 
-// Lancer le chargement
-loadImages();
+// Charger les images uniquement côté client
+if (typeof window !== "undefined") {
+  loadImages();
+}
 
 export interface Coordinate {
   row: number;
@@ -70,6 +69,9 @@ export class SnakeGameEngine {
   private internalPlayState: boolean;
 
   snake: Snake;
+
+  private animationId: number | null = null;
+  private isRunning: boolean = false;
 
   constructor(
       context: CanvasRenderingContext2D,
@@ -97,6 +99,23 @@ export class SnakeGameEngine {
     this.staggerFrame = 8;
 
     this.internalPlayState = isPlaying;
+  }
+
+  start() {
+    if (this.isRunning) return;
+    this.internalPlayState = true;
+    this.isRunning = true;
+    this.currentFrameCount = 0;
+    this.animationId = requestAnimationFrame(() => this.animate(this.internalPlayState));
+  }
+
+  stop() {
+    this.internalPlayState = false;
+    this.isRunning = false;
+    if (this.animationId != null) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
+    }
   }
 
   get score() {
@@ -156,8 +175,6 @@ export class SnakeGameEngine {
     }
   }
 
-  // ----[ GRID BACKGROUND ]-----------------------------
-
   private generateGrid() {
     const cellSize = this.boardSidesLength / this.numOfRowsAndCols;
 
@@ -168,8 +185,6 @@ export class SnakeGameEngine {
       }
     }
   }
-
-  // ----[ DRAW SNAKE + FOOD ]---------------------------
 
   private renderContent() {
     const cellWidth = this.boardSidesLength / this.numOfRowsAndCols;
@@ -187,11 +202,9 @@ export class SnakeGameEngine {
 
           const img = isHead ? tete : corps;
 
-          // Dessiner l'image si elle est chargée, sinon utiliser la couleur de fallback
-          if (imagesLoaded && img.complete && img.naturalWidth !== 0) {
+          if (imagesLoaded && img && img.complete && img.naturalWidth !== 0) {
             this.context.drawImage(img, x, y, cellWidth, cellHeight);
           } else {
-            // Couleur de fallback si l'image n'est pas disponible
             this.context.fillStyle = isHead ? "#2E7D32" : "#A2C579";
             this.context.fillRect(x, y, cellWidth, cellHeight);
           }
@@ -205,13 +218,7 @@ export class SnakeGameEngine {
     });
   }
 
-  // ----[ UPDATE BOARD STATE ]--------------------------
-
   private setFoodOnBoard() {
-    if (this.snake.justAte) {
-      this.foodCoordinate = { row: -1, col: -1 };
-    }
-
     const fc = this.foodCoordinate;
     if (fc && fc.row >= 0 && fc.col >= 0) {
       this.gameBoard[fc.row][fc.col] = "food";
@@ -219,13 +226,11 @@ export class SnakeGameEngine {
   }
 
   private setSnakeOnBoard() {
-    // Créer un nouveau board pour éviter les mutations
     const newBoard: Cell[][] = new Array(this.numOfRowsAndCols)
         .fill(0)
         .map(() => new Array<Cell>(this.numOfRowsAndCols).fill(null));
 
     this.snake.bodyCoordinates.forEach((p) => {
-      // Vérification des limites
       if (
           p.row >= 0 &&
           p.row < this.numOfRowsAndCols &&
@@ -239,41 +244,42 @@ export class SnakeGameEngine {
     this.gameBoard = newBoard;
   }
 
-  // ----[ RENDER BOARD ]--------------------------------
-
   private renderBoard() {
     this.setSnakeOnBoard();
     this.setFoodOnBoard();
 
-    // Dessiner le fond en premier
     this.generateGrid();
-
-    // Puis dessiner le contenu (snake & food)
     this.renderContent();
-
-    // Enfin dessiner les lignes de la grille par-dessus
     this.drawGridLines();
   }
-
-  // ----[ COLLISIONS ]---------------------------------
 
   private snakeIsOutOfBounds() {
     const h = this.snake.headCoordinate;
     const max = this.numOfRowsAndCols - 1;
-    return h.row < 0 || h.row > max || h.col < 0 || h.col > max;
+    const isOut = h.row < 0 || h.row > max || h.col < 0 || h.col > max;
+    if (isOut) {
+      console.log("🚫 OUT OF BOUNDS:", h, "max:", max);
+    }
+    return isOut;
   }
 
   private snakeHitsBody() {
     const body = this.snake.bodyCoordinates.slice(0, -1);
     const head = this.snake.headCoordinate;
-    return body.some((b) => b.row === head.row && b.col === head.col);
+    const hits = body.some((b) => b.row === head.row && b.col === head.col);
+    if (hits) {
+      console.log("💥 HIT BODY!");
+      console.log("Head:", head);
+      console.log("Body:", body);
+      console.log("All coordinates:", this.snake.bodyCoordinates);
+      console.log("Food:", this._foodCoordinate);
+    }
+    return hits;
   }
 
   private isGameOver() {
     return this.snakeIsOutOfBounds() || this.snakeHitsBody();
   }
-
-  // ----[ GAME LOOP ]-----------------------------------
 
   animate(isPlaying: boolean) {
     this.internalPlayState = isPlaying;
@@ -285,23 +291,38 @@ export class SnakeGameEngine {
 
       if (this.score !== this.externalScore) this.setScore(this.score);
 
+      // 1) Déplacer le serpent
+      this.snake.move(this.foodCoordinate);
+
+      // 2) Mettre à jour la nourriture si mangée AVANT de tester le game over
+      if (this.snake.justAte) {
+        console.log("🍎 Snake ate! Old food:", this._foodCoordinate);
+        this.foodCoordinate = { row: -1, col: -1 };
+        console.log("🍎 New food:", this._foodCoordinate);
+      }
+
+      // 3) Tester le game over
       if (this.isGameOver()) {
         this.setIsGameOver(true);
+        this.stop();
         return;
       }
 
+      // 4) Dessiner
       this.context.clearRect(0, 0, this.boardSidesLength, this.boardSidesLength);
-
       this.renderBoard();
-      this.snake.move(this.foodCoordinate);
     }
 
     if (this.internalPlayState) {
-      requestAnimationFrame(() => this.animate(this.internalPlayState));
+      if (this.animationId != null) {
+        cancelAnimationFrame(this.animationId);
+        this.animationId = null;
+      }
+      this.animationId = requestAnimationFrame(() => this.animate(this.internalPlayState));
+    } else {
+      this.stop();
     }
   }
-
-  // ----[ GRID LINES ]---------------------------------
 
   private drawGridLines() {
     const cellSize = this.boardSidesLength / this.numOfRowsAndCols;
