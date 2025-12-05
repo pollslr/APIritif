@@ -19,18 +19,49 @@
   }
 }
 
+@font-face {
+  font-family:'GothamLight';
+  src: url('@/public/fonts/Gotham-Light.otf');
+}
+@font-face {
+  font-family:'GothamBook';
+  src: url('@/public/fonts/Gotham-BookItalic.otf');
+}
+@font-face {
+  font-family:'GothamThin';
+  src: url('@/public/fonts/Gotham-Thin.otf');
+}
+@font-face {
+  font-family:'GothamX';
+  src: url('@/public/fonts/Gotham-XLight.otf');
+}
+@font-face {
+  font-family:'GothamBase';
+  src: url('@/public/fonts/GothamMedium.ttf');
+}
+@font-face {
+  font-family:'GothamBlack';
+  src: url('@/public/fonts/Gotham-Black.otf');
+}
+
 body {
-  background: url('/img/teun.png');
+  background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
-  @apply text-2xl font-bold
+  @apply text-2xl font-bold;
+
+  font-family: "GothamBlack", sans-serif;
 }
 h2 {
-  @apply text-xl font-bold
+  @apply text-xl font-bold;
+
+  font-family: "GothamBlack", sans-serif;
 }
 h3 {
-  @apply text-lg font-semibold
+  @apply text-lg font-semibold;
+
+  font-family: "GothamBold", sans-serif;
 }

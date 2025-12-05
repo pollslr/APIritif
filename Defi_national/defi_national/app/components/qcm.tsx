@@ -11,7 +11,7 @@ export default function QCM({question, reponses}: {question: string, reponses: a
         <div>
             <h3>{question}</h3>
                 
-            <div className={"border-l-2 border-teal-300 pl-2"}>
+            <div className={"border-2 border-r-0 border-t-0 border-b-0 border-teal-300 pl-2"}>
                 {
                     Object.keys(reponses[0]).map((rep, i) => <Reponse key={i} index={i} reponse={rep} selected={selected}/>)
                 }
@@ -54,8 +54,8 @@ function Reponse({index, reponse, selected}: {index: number, reponse: string, se
     
     return (
         <div className={"my-2 flex items-center"}>
-            <div className={"flex mr-2 w-8 h-8 rounded-lg border-2 border-teal-400 cursor-pointer"} onClick={() => click()}>
-                <div className={"m-1 rounded bg-teal-100/80 w-full aspect-square transition-opacity ".concat(checked ? "" : "opacity-0")}/>
+            <div className={"flex mr-2 w-8 h-8 rounded-lg bg-teal-950 border-2 border-teal-400 cursor-pointer"} onClick={() => click()}>
+                <div className={"m-1 rounded bg-teal-400 w-full aspect-square transition-opacity ".concat(checked ? "" : "opacity-0")}/>
             </div>
             <p>{reponse}</p>
         </div>
