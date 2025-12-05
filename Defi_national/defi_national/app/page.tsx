@@ -18,7 +18,7 @@ export default function Home() {
         </div>
 
         <Background className="custom-bg mt-[150vh]">
-            <img src="/phrise.png" alt="Zbi" />
+            <img src="/phrise.png" alt="phrise chonologique" />
         </Background>
         
         <h1 className={"mt-30 mb-80 mx-auto"}>Petit historique du numérique</h1>
@@ -27,7 +27,7 @@ export default function Home() {
 
         <Section title={"1969 - Débuts d'internet"} content={"ARPANET, 4 ordinateurs connectées, champagne !"}/>
 
-        <Section side={true} title={"Test"} content={"Ceci est un test"}>
+        <Section side={true} title={""} content={"Ceci est un test"}>
             <QCM question={"Qui est correcte?"} reponses={[{"Oui": true, "Faux": false, "Incorrecte": false}]}/>
         </Section>
         
