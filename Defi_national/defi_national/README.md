@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Groupe API-ritif
 
-## Getting Started
-
-First, run the development server:
+## Lancement du site web
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Ou aller sur [https://apiritif.teunharm.net/](https://apiritif.teunharm.net/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Visualisation audio
 
-## Learn More
+Disponible sur le site principal en descendant jusqu'à "Un petit retour nostalgique sur le numérique des années 2000/2010 ?"
+Quelques options de visualisation possible avec 2 sons disponibles.
 
-To learn more about Next.js, take a look at the following resources:
+## Hidden snake
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Disponible en allant sur le [chat](https://apiritif.teunharm.net/chat) et en tirant/glissant la queue du chat.
+[Lien directe](https://apiritif.teunharm.net/snake)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Chat'bruiti
 
-## Deploy on Vercel
+Accessible [ici](https://apiritif.teunharm.net/chat) ou via le boutton chat en bas de la page principale.
+En local il faut disposer d'une clé API donc passer par le site est plus simple.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## CTO Decathlon
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Descendez jusqu'à l'icone sport afin de faire votre auto évaluation.
+Lien [ici](https://apiritif.teunharm.net/decathlon)
