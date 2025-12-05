@@ -1,7 +1,6 @@
 'use client';
 
 import Image from "next/image";
-import Button from "./components/button";
 import {ReactNode} from "react";
 import QCM from "@/app/components/qcm";
 
@@ -9,6 +8,7 @@ import Link from "next/link";
 import '@/app/style.css';
 
 import {Background, Parallax} from 'react-parallax';
+import Disco from "@/app/components/disco";
 
 export default function Home() {
     return (
@@ -32,6 +32,11 @@ export default function Home() {
         </Section>
         
         <Section title={"Contribuez"} content={""}/>
+        
+        <div className="relative z-10 flex m-auto w-32 h-64 rounded-xl overflow-clip bg-black">
+            <Disco/>
+            <div className={"absolute left-[62px] top-1 w-2 h-2 rounded-full bg-gray-800"}/>
+        </div>
     </Parallax>
     );
 }
