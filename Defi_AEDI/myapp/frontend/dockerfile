@@ -2,7 +2,12 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY . .
+COPY package*.json ./
+COPY vite.config.js ./
+COPY index.html ./
+COPY eslint.config.js ./
+    COPY src/ ./src/
+COPY public/ ./public/
 
 RUN npm install -g serve
 RUN npm install
