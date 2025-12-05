@@ -45,7 +45,7 @@ export default function SnakesGame() {
             <p className="new-game-hint">Click anywhere to start</p>
         ) : (
             <>
-              <p className="score !border-4 rounded-xl border-blue-800 pb-1">
+              <p className="score">
                 <span className={"!bg-transparent"}>Score</span>
                 <span className={"!bg-transparent"}>{score}</span>
               </p>

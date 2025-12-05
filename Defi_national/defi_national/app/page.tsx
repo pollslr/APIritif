@@ -12,16 +12,16 @@ import {Background, Parallax} from 'react-parallax';
 
 export default function Home() {
     return (
-    <Parallax bgImage="/fond1.png" className={"px-16 teun"} contentClassName={"flex flex-col min-h-screen w-full"} strength={200}>
+    <Parallax bgImage="/fond1.png" className={"px-16 teun"} contentClassName={"flex flex-col min-h-screen w-full"} strength={800}>
         <div className="Logo mx-auto my-[calc(50vh-125px)]">
-            <Link href="/"><Image src='/img/nird_logo.png' alt="Logo NIRD" width={484} height={200} className="justify-center"/></Link>
+            <Link href="https://nird.forge.apps.education.fr/"><Image src='/img/nird_logo.png' alt="Logo NIRD" width={484} height={200} className="justify-center"/></Link>
         </div>
 
-        <Background className="custom-bg mt-[150vh]">
-            <img src="/phrise.png" alt="phrise chonologique" />
-        </Background>
-        
-        <h1 className={"mt-30 mb-80 mx-auto"}>Petit historique du numérique</h1>
+        <div className="absolute custom-bg mt-[150vh]">
+            <img src="/phrise.png" alt="Zbi" />
+        </div>
+
+        <h1 className={"mt-30 mb-50 mx-auto"}>Petit historique du numérique</h1>
         
         <Section side={true} title={"1946 - Premier ordinateur"} content={"150 kW de consommation, c'est beaucoup mais c'est le progrès !"}/>
 
@@ -38,7 +38,7 @@ export default function Home() {
 
 function Section({title, content, side = false, children}: {title: string, content: string, side?: boolean, children?: ReactNode}) {
     return (
-        <div className={"flex flex-col my-30 ".concat(side ? "ml-auto" : "mr-auto")}>
+        <div className={"flex flex-col my-60 ".concat(side ? "ml-auto" : "mr-auto")}>
             <h2 className={"mx-auto mb-3"}>{title}</h2>
             <p>{content}</p>
             <div className={"mt-2"}>
