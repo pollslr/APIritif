@@ -38,17 +38,16 @@ export default function SnakesGame() {
   };
 
   return (
-      <div id="snakes-game-container" onClick={handleBodyClick}>
-        <h1 id="game-title">Snake Game</h1>
-        <p className="high-score">High Score: {highScore}</p>
+      <div id="snakes-game-container" className={"flex flex-col !bg-gray-800"} onClick={handleBodyClick}>
+        <p className="mx-auto my-5 font-bold text-xl">High Score: {highScore}</p>
 
         {justStarted ? (
             <p className="new-game-hint">Click anywhere to start</p>
         ) : (
             <>
-              <p className="score">
-                <span>Score</span>
-                <span>{score}</span>
+              <p className="score !border-4 rounded-xl border-blue-800 pb-1">
+                <span className={"!bg-transparent"}>Score</span>
+                <span className={"!bg-transparent"}>{score}</span>
               </p>
               <p className="pause-hint">
                 <strong>PAUSE:</strong> Click Anywhere or Press <kbd>esc</kbd>

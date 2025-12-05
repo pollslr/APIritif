@@ -30,8 +30,8 @@ export default function GameOverModal({
   }
 
   return (
-    <div id="game-over-modal-container" onClick={handleGameReset}>
-      <div id="game-over-modal">
+    <div id="game-over-modal-container" className={"!bg-gray-800"} onClick={handleGameReset}>
+      <div id="game-over-modal" className={"!shadow-none"}>
         <h2>Game Over</h2>
         <p className="final-score">
           Your Final Score: <span>{finalScore}</span>
