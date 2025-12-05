@@ -1,7 +1,8 @@
-'use client'; // Obligatoire car on utilise useState
+'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import styles from './chat.module.css'; // Import du CSS Module
+import { useRouter } from 'next/navigation';
 
 export default function ChatPage() {
     const [messages, setMessages] = useState([
@@ -9,13 +10,38 @@ export default function ChatPage() {
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
         // Si la référence existe, on scrolle vers elle en douceur
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, isLoading]);
+
+
+
+    const router = useRouter();
+
+
+    const [startY, setStartY] = useState(0);
+    const [startX, setStartX] = useState(0);
+
+    const handleMouseDown = (e) => {
+        // On enregistre la position Y (verticale) au moment du clic
+        setStartY(e.clientY);
+        setStartX(e.clientX);
+    };
+
+    const handleMouseUp = (e) => {
+        // On calcule la distance parcourue vers le bas
+        const distanceX = Math.abs(e.clientX - startX);
+        const distanceY = Math.abs(e.clientY - startY);
+        const distance = distanceX + distanceY;
+        // Si on a descendu la souris de plus de 100 pixels
+        if (distance > 80) {
+            alert("MIIIIAAAAOUUU ! 🙀 (Redirection...)");
+            router.push('../snake'); // <--- Mets ici l'URL de ta nouvelle page
+        }
+    };
 
     const sendMessage = async (e) => {
         e.preventDefault();
@@ -86,6 +112,16 @@ export default function ChatPage() {
 
             {/* DROITE : Image */}
             <aside className={styles.imageInterface}>
+
+                <div
+                    className={styles.tailZone}
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={handleMouseUp}
+                    // On ajoute onMouseLeave pour annuler si la souris sort de la zone
+                    onMouseLeave={() => setStartY(0)}
+                    title="Tire ma queue !"
+                />
+
             </aside>
 
         </main>
