@@ -43,6 +43,10 @@
   font-family:'GothamBlack';
   src: url('@/public/fonts/Gotham-Black.otf');
 }
+@font-face {
+  font-family:'GothamBold';
+  src: url('@/public/fonts/GothamBold.ttf');
+}
 
 body {
   background: var(--background);
@@ -53,15 +57,41 @@ body {
 h1 {
   @apply text-2xl font-bold;
 
-  font-family: "GothamBlack", sans-serif;
+  font-family: "GothamX", sans-serif;
+  font-size: 30px;
 }
 h2 {
   @apply text-xl font-bold;
-
-  font-family: "GothamBlack", sans-serif;
+  font-family: "GothamX", sans-serif;
+  font-size: 20px
 }
 h3 {
   @apply text-lg font-semibold;
+  font-family: "GothamX", sans-serif;
+  font-size: 10px;
+}
+
+.titre {
+  @apply text-2xl font-bold;
 
   font-family: "GothamBold", sans-serif;
+  font-size: 30px;
+}
+
+.contenu {
+  @apply text-2xl font-bold;
+  font-family: "GothamLight", sans-serif;
+  font-size: 20px;
+}
+
+.quest {
+  @apply text-2xl font-bold;
+  font-family: "GothamLight", sans-serif;
+  font-size: 20px;
+}
+
+.rep {
+  @apply text-2xl font-bold;
+  font-family: "GothamX", sans-serif;
+  font-size: 15px;
 }

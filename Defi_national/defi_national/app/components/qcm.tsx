@@ -9,17 +9,17 @@ export default function QCM({question, reponses}: {question: string, reponses: a
     
     return (
         <div>
-            <h3>{question}</h3>
+            <h3 className={"quest my-6"}>{question}</h3>
                 
-            <div className={"border-2 border-r-0 border-t-0 border-b-0 border-teal-300 pl-2"}>
+            <div className={"border-2 border-r-0 border-t-0 border-b-0 border-blue-800 pl-2"}>
                 {
                     Object.keys(reponses[0]).map((rep, i) => <Reponse key={i} index={i} reponse={rep} selected={selected}/>)
                 }
             </div>
             
-            <div className={"flex items-center"}>
+            <div className={"flex items-center rep"}>
                 <Button text={"Valider"} clicked={check}/>
-                <p hidden={message==""} className={"ml-2"}>{message}</p>
+                <p hidden={message==""} className={"ml-2 rep"}>{message}</p>
             </div>
         </div>
     );
@@ -37,15 +37,15 @@ export default function QCM({question, reponses}: {question: string, reponses: a
         for (let i = 0; i < Object.keys(reponses[0]).length; i++) {
             const key = Object.keys(reponses[0])[i];
             if (reponses[0][key] && !selectedList.includes(i)) {
-                setMessage("Mauvaise réponse.");
+                setMessage("Mauvaise réponse");
                 return;
             }
             else if (!reponses[0][key] && selectedList.includes(i)) {
-                setMessage("Mauvaise réponse.");
+                setMessage("Mauvaise réponse");
                 return;
             }
         }
-        setMessage("Bonne réponse.");
+        setMessage("Bonne réponse");
     }
 }
 
@@ -54,10 +54,10 @@ function Reponse({index, reponse, selected}: {index: number, reponse: string, se
     
     return (
         <div className={"my-2 flex items-center"}>
-            <div className={"flex mr-2 w-8 h-8 rounded-lg bg-teal-950 border-2 border-teal-400 cursor-pointer"} onClick={() => click()}>
-                <div className={"m-1 rounded bg-teal-400 w-full aspect-square transition-opacity ".concat(checked ? "" : "opacity-0")}/>
+            <div className={"flex mr-2 w-8 h-8 rounded-lg bg-blue-800/30 border-2 border-blue-900 cursor-pointer"} onClick={() => click()}>
+                <div className={"m-1 rounded bg-blue-700 w-full aspect-square transition-opacity ".concat(checked ? "" : "opacity-0")}/>
             </div>
-            <p>{reponse}</p>
+            <p className={"rep my-3"}>{reponse}</p>
         </div>
     );
     
