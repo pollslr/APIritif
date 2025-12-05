@@ -60,9 +60,9 @@ export default function Home() {
             <QCM question={"Quelle initiative lutte le mieux contre l'illectronisme ?"} reponses={[{"A) Proposer des ateliers de médiation numérique": true, "B) Distribuer des tablettes gratuites": false, "C) Rendre tous les services disponibles uniquement en ligne": false}]}/>
         </Section>
         
-        <div className="relative z-10 flex m-auto w-32 h-64 rounded-xl overflow-clip bg-black">
+        <div className="relative z-10 flex flex-col m-auto w-52 h-96 rounded-xl overflow-clip bg-black">
+            <div className={"mx-auto mt-1 w-2 h-2 rounded-full bg-gray-800"}/>
             <Disco/>
-            <div className={"absolute left-[62px] top-1 w-2 h-2 rounded-full bg-gray-800"}/>
         </div>
 
         <h2 className={"mt-30 mb-20 mx-auto"}>Besoin d'une recherche personalisée sur le NIRD ? Demandez à notre assistant IA, cliquez sur ce chat !</h2>

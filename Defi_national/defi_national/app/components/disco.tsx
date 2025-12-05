@@ -9,15 +9,15 @@ export default function Disco() {
     
     const [mode, setMode] = useState<number>(0);
 
+    const audioList = [
+        { name: "Son 1", path: "/audio/son1.wav" },
+        { name: "Son 2", path: "/audio/son2.wav" },
+    ];
+
     const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
     const [dataArray, setDataArray] = useState<Uint8Array | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [currentAudio, setCurrentAudio] = useState("/audio/son1.mp3");
-
-    const audioList = [
-        { name: "Son 1", path: "/audio/son1.mp3" },
-        { name: "Son 2", path: "/audio/son2.mp3" },
-    ];
+    const [currentAudio, setCurrentAudio] = useState(audioList[0].path);
     
     useEffect(() => {
         if (!audioRef.current) return;
@@ -722,7 +722,7 @@ export default function Disco() {
                 style={{
                     display: "flex",
                     width: "100%",
-                    //height: "100%",
+                    transform: mode == 1 ? "scale(1, 4)" : "scale(2)",
                     margin: "auto auto",
                     background: "transparent",
                 }}
@@ -730,14 +730,14 @@ export default function Disco() {
             
             <select value={mode} style={{
                 position: "absolute",
-                top: 18,
+                top: 5,
                 left: 2,
                 right: 2,
                 fontSize: 10,
             }} onChange={(e) => setMode((e.currentTarget as HTMLSelectElement).selectedIndex)}>
                 <option value={0}>Cercle</option>
                 <option value={1}>Barres</option>
-                <option value={2}>Cercle</option>
+                <option value={2}>Visualiseur</option>
             </select>
             
             
